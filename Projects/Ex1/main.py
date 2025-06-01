@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
-
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
 
 options = Options()
 options.add_argument('-start-maximized')
@@ -10,6 +12,7 @@ options.binary_location = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
 service = Service('C:\\Users\\mszpa\\geckodriver.exe')
 
 driver = webdriver.Firefox(service=service, options=options)
+wait = WebDriverWait(driver, 10)
 
 try:
     driver.get("https://www.telerik.com/kendo-react-ui/components/layout/contextmenu")
