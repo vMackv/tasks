@@ -7,9 +7,10 @@ from selenium.webdriver.common.by import By
 
 options = Options()
 options.add_argument('-start-maximized')
-options.binary_location = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
 #options.add_argument('--headless')
-service = Service('C:\\Users\\mszpa\\geckodriver.exe')
+
+options.binary_location = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" # pass your own firefox.exe path
+service = Service('C:\\Users\\mszpa\\geckodriver.exe') # pass your own geckodriver.exe path
 
 driver = webdriver.Firefox(service=service, options=options)
 wait = WebDriverWait(driver, 10)
@@ -25,6 +26,24 @@ try:
         print("Rejected cookies successfully!")
     except Exception as e:
         print("Error rejecting cookies: ", e)
+
+    try:
+        iframe = wait.until(
+            EC.presence_of_element_located((By.XPATH, "//iframe[contains(@class, 'demo-module--demoFrame')]"))
+        )
+        driver.switch_to.frame(iframe)
+        print("Successfully switched to iframe!")
+    except Exception as e:
+        print("Error finding iframe: ", e)
+
+    try:
+        example_element = wait.until(
+            EC.presence_of_element_located((By.XPATH, "//*[@class='k-body']"))
+        )
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", example_element)
+        print("Scrolled down successfully!")
+    except Exception as e:
+        print("Error: ", e)
 
     input("Press enter to continue...")
 except Exception as e:
