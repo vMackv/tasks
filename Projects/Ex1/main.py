@@ -42,8 +42,19 @@ try:
         )
         driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", example_element)
         print("Scrolled down successfully!")
+        driver.switch_to.default_content()
+        print("Switched to default content!")
     except Exception as e:
         print("Error scrolling down: ", e)
+
+    try:
+        dropdown_btn = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Change theme']"))
+        )
+        dropdown_btn.click()
+        print("Successfully clicked dropdown button!")
+    except Exception as e:
+        print("Error clicking dropdown button: ", e)
 
     input("Press enter to continue...")
 except Exception as e:
