@@ -22,7 +22,8 @@ try:
     iframe = wait.until(
         EC.presence_of_element_located((By.XPATH, "//iframe[contains(@class, 'demo-module--demoFrame')]"))
     )
-    time.sleep(2)
+    actions = ActionChains(driver)
+
     try:
         reject_cookie = wait.until(
             EC.element_to_be_clickable((By.XPATH, "//button[text()='Reject All']"))
@@ -31,13 +32,13 @@ try:
         print("Rejected cookies successfully!")
     except Exception as e:
         print("Error rejecting cookies: ", e)
-    time.sleep(2)
+
     try:
         driver.switch_to.frame(iframe)
         print("Successfully switched to iframe!")
     except Exception as e:
         print("Error finding iframe: ", e)
-    time.sleep(2)
+
     try:
         example_element = wait.until(
             EC.presence_of_element_located((By.XPATH, "//*[@class='k-body']"))
@@ -48,7 +49,7 @@ try:
         print("Switched to default content!")
     except Exception as e:
         print("Error scrolling down: ", e)
-    time.sleep(2)
+
     try:
         dropdown_btn = wait.until(
             EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Change theme']"))
@@ -57,7 +58,7 @@ try:
         print("Successfully clicked dropdown button!")
     except Exception as e:
         print("Error clicking dropdown button: ", e)
-    time.sleep(2)
+
     try:
         mat_theme_option = wait.until(
             EC.element_to_be_clickable((By.XPATH, "//button[13]")) # achieved by a browser extension SelectorsHub
@@ -66,6 +67,29 @@ try:
         print("Successfully clicked mat theme option!")
     except Exception as e:
         print("Error clicking mat theme option: ", e)
+
+    try:
+        driver.switch_to.frame(iframe)
+        right_click_btn = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//div[@class='target']"))
+        )
+        actions.context_click(right_click_btn).perform()
+        print("Successfully right clicked the button!")
+    except Exception as e:
+        print("Error right clicking the button: ", e)
+
+    try:
+        style_btn = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//*[text()='Style']"))
+        )
+        actions.move_to_element(style_btn).perform()
+        underline_btn = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//*[text()='Underline']"))
+        )
+        underline_btn.click()
+        print("Clicked underline button!")
+    except Exception as e:
+        print("Error clicking style: ", e)
 
     input("Press enter to continue...")
 except Exception as e:
