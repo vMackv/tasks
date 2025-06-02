@@ -91,6 +91,14 @@ try:
     except Exception as e:
         print("Error clicking style: ", e)
 
+    time.sleep(1)
+
+    try:
+        driver.get_screenshot_as_file("whole_website.png")
+        print("Captured and saved screenshot!")
+    except Exception as e:
+        print("Error getting screenshot: ", e)
+
     input("Press enter to continue...")
 except Exception as e:
     print(e)
