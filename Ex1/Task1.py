@@ -1,3 +1,6 @@
+import os
+import time
+
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.firefox.service import Service
@@ -11,10 +14,13 @@ from selenium.webdriver import ActionChains
 class AutomateBrowser:
 
     def __init__(self):
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        os.chdir(script_dir)
+
         options = Options()
-        self.service = Service(GeckoDriverManager().install())
+        service = Service(GeckoDriverManager().install())
         #options.headless = True
-        self.driver = webdriver.Firefox(service=self.service, options=options)
+        self.driver = webdriver.Firefox(service=service, options=options)
         self.wait = WebDriverWait(self.driver, 10)
         self.actions = ActionChains(self.driver)
         self.current_url = "https://www.telerik.com/kendo-react-ui/components/layout/contextmenu"
@@ -97,13 +103,22 @@ class AutomateBrowser:
 
     def Take_Screenshot(self):
         try:
-            self.driver.get_screenshot_as_file('whole_website.png')
-            print("Successfully taken screenshot!")
+            script_dir = os.path.dirname(__file__)
+            os.chdir(script_dir)
+            time.sleep(1)
+
+            screenshot = self.driver.save_screenshot('whole_website.png')
+
+            if screenshot:
+                print("Successfully taken screenshot!")
+            else:
+                print('Could not take screenshot!')
         except Exception as e:
             print('Error taking screenshot: {}'.format(e))
 
     def Driver_quit(self):
         try:
             self.driver.quit()
+            print('Driver closed successfully.')
         except Exception as e:
             print('Error quiting driver: {}'.format(e))

@@ -1,3 +1,4 @@
+import time
 from Task1 import AutomateBrowser as AB
 
 def RunBrowser():
@@ -12,7 +13,8 @@ def RunBrowser():
     auto.Style_Underline()
     auto.Default_Frame()
     auto.Take_Screenshot()
-    input('Press Enter to continue...')
+    #input('Press Enter to continue...')
+    time.sleep(2)
     auto.Driver_quit()
 
 if __name__ == '__main__':
