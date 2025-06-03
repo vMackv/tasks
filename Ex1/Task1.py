@@ -14,9 +14,6 @@ from selenium.webdriver import ActionChains
 class AutomateBrowser:
 
     def __init__(self):
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        os.chdir(script_dir)
-
         options = Options()
         service = Service(GeckoDriverManager().install())
         #options.headless = True
@@ -103,14 +100,11 @@ class AutomateBrowser:
 
     def Take_Screenshot(self):
         try:
-            script_dir = os.path.dirname(__file__)
-            os.chdir(script_dir)
             time.sleep(1)
-
             screenshot = self.driver.save_screenshot('whole_website.png')
 
             if screenshot:
-                print("Successfully taken screenshot!")
+                print("Successfully taken screenshot! {}")
             else:
                 print('Could not take screenshot!')
         except Exception as e:
