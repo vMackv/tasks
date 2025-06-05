@@ -18,10 +18,13 @@ def actions(mocker):
 
 
 class TestContextMenu:
+
+    # Setup
     @pytest.fixture(autouse=True)
     def setup(self, driver, wait, actions):
         self.context_menu = ContextMenu(driver, wait, actions)
 
+    # Tests
     def test_switch_to_iframe(self, wait, driver):
         iframe = wait.until.return_value
         self.context_menu.switch_to_iframe()

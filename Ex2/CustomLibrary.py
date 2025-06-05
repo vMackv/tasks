@@ -8,6 +8,7 @@ class CustomLibrary:
         self._browser = None
         self.headless = headless
 
+    # Properties
     @property
     def keywords(self):
         if self._browser is None:

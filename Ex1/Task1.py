@@ -14,22 +14,32 @@ class AutomateBrowser:
     def __init__(self):
         options = Options()
 
+        # Find the path to the Firefox browser
         firefox_path = shutil.which('firefox')
         if not firefox_path:
             raise FileNotFoundError('Firefox not found in PATH.')
         options.binary_location = firefox_path
 
+        # Find the path to the geckodriver
         geckodriver_path = shutil.which('geckodriver')
         if not geckodriver_path:
             raise FileNotFoundError('geckodriver not found in PATH.')
         service = Service(geckodriver_path)
 
         #options.headless = True
+        # Launch Firefox browser with specified options
         self.driver = webdriver.Firefox(service=service, options=options)
+
+        # Used for waiting for elements to appear
         self.wait = WebDriverWait(self.driver, 10)
+
+        # Used for mouse actions like right-click
         self.actions = ActionChains(self.driver)
+
+        # URL to open in Firefox browser
         self.current_url = "https://www.telerik.com/kendo-react-ui/components/layout/contextmenu"
 
+    # Open the URL in Firefox browser
     def open_url(self):
         try:
             self.driver.get(self.current_url)
@@ -38,6 +48,7 @@ class AutomateBrowser:
         except Exception as e:
             print('Something went wrong: {}'.format(e))
 
+    # Reject the cookie pop-up if it appears
     def reject_cookies(self):
         try:
             reject = self.wait.until(
@@ -48,6 +59,7 @@ class AutomateBrowser:
         except NoSuchElementException:
             print('Cookies not found.')
 
+    # Switch into an iframe
     def swap_to_iframe(self):
         try:
             iframe = self.wait.until(
@@ -57,12 +69,14 @@ class AutomateBrowser:
         except NoSuchElementException:
             print('No iframe found.')
 
+    # Switch back to the default page frame
     def default_frame(self):
         try:
             self.driver.switch_to.default_content()
         except NoSuchElementException:
             print('Default frame actually enabled.')
 
+    # Scroll down to a specific element
     def scroll_down(self):
         try:
             example_element = self.wait.until(
@@ -75,6 +89,7 @@ class AutomateBrowser:
         except Exception as e:
             print('Error scrolling down: {}'.format(e))
 
+    # Change the UI theme on the page
     def change_theme(self):
         try:
             self.wait.until(
@@ -89,6 +104,7 @@ class AutomateBrowser:
         except Exception as e:
             print('Error clicking material theme: {}'.format(e))
 
+    # Right-click on a target element and select "Underline" style
     def style_underline(self):
         try:
             rc_button = self.wait.until(
@@ -106,6 +122,7 @@ class AutomateBrowser:
         except Exception as e:
             print('Error changing button style: {}'.format(e))
 
+    # Take a screenshot of the entire page
     def take_screenshot(self):
         try:
             time.sleep(1)
@@ -118,6 +135,7 @@ class AutomateBrowser:
         except Exception as e:
             print('Error taking screenshot: {}'.format(e))
 
+    # Close the browser window
     def driver_quit(self):
         try:
             self.driver.quit()
