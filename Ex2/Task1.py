@@ -1,3 +1,5 @@
+import os
+import shutil
 import time
 from selenium import webdriver
 from selenium.common import NoSuchElementException
@@ -16,7 +18,12 @@ class AutomateBrowser:
         # Find the path to the Firefox browser
         firefox_path = shutil.which('firefox')
         if not firefox_path:
-            raise FileNotFoundError('Firefox not found in PATH.')
+            # Try a common Firefox install path on Windows (adjust if needed)
+            possible_path = r"C:\Program Files\Mozilla Firefox\firefox.exe"
+            if os.path.exists(possible_path):
+                firefox_path = possible_path
+            else:
+                raise FileNotFoundError('Firefox not found in PATH or default location.')
         options.binary_location = firefox_path
 
         # Find the path to the geckodriver
