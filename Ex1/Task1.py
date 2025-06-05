@@ -1,4 +1,5 @@
 import time
+import shutil
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.firefox.service import Service
@@ -6,14 +7,23 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver import ActionChains
 
 class AutomateBrowser:
 
     def __init__(self):
         options = Options()
-        service = Service(GeckoDriverManager().install())
+
+        firefox_path = shutil.which('firefox')
+        if not firefox_path:
+            raise FileNotFoundError('Firefox not found in PATH.')
+        options.binary_location = firefox_path
+
+        geckodriver_path = shutil.which('geckodriver')
+        if not geckodriver_path:
+            raise FileNotFoundError('geckodriver not found in PATH.')
+        service = Service(geckodriver_path)
+
         #options.headless = True
         self.driver = webdriver.Firefox(service=service, options=options)
         self.wait = WebDriverWait(self.driver, 10)

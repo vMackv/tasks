@@ -13,9 +13,19 @@ class AutomateBrowser:
 
     def __init__(self, headless=False):
         options = Options()
+
+        firefox_path = shutil.which('firefox')
+        if not firefox_path:
+            raise FileNotFoundError('Firefox not found in PATH.')
+        options.binary_location = firefox_path
+
+        geckodriver_path = shutil.which('geckodriver')
+        if not geckodriver_path:
+            raise FileNotFoundError('geckodriver not found in PATH.')
+        service = Service(geckodriver_path)
+
         if headless:
             options.headless = True
-        service = Service(GeckoDriverManager().install())
         self.driver = webdriver.Firefox(service=service, options=options)
         self.wait = WebDriverWait(self.driver, 10)
         self.actions = ActionChains(self.driver)
